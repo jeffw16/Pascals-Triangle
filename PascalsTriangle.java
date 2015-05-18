@@ -7,16 +7,16 @@ import java.math.*;
 import java.io.*;
 import java.util.*;
 
-public static void main ( String[] args ) {
-  Scanner s = new Scanner ( System.in );
-  System.out.println ( "Pascal's Triangle" );
-  System.out.println ( "n = " );
-  int n = s.nextInt();
-  PascalsTriangle pt = new PascalsTriangle( n );
-  pt.toString();
-}
-
 class PascalsTriangle {
+  public static void main ( String[] args ) {
+    Scanner s = new Scanner ( System.in );
+    System.out.println ( "Pascal's Triangle" );
+    System.out.println ( "n = " );
+    int n = s.nextInt();
+    PascalsTriangle pt = new PascalsTriangle( n );
+    System.out.println ( pt );
+  }
+
   int[][] grid;
   public PascalsTriangle ( int n ) {
     grid = new int[n][n];
@@ -33,21 +33,29 @@ class PascalsTriangle {
   }
   public void ptrow ( int start, int end ) {
     if ( start == end ) {
-      // nothing much
+      // nothing much, just let it die
     } else {
-      grid[start][0] == 1;
-      grid[start][start+1] == 1;
-      for ( int i = 1; i < start; i++ ) {
-        grid[start][i] == grid[start-1][i] + grid[start-1][i+1];
-      }
+      grid[start][0] = 1;
+      grid[start][start] = 1;
+      //if ( start == 2 ) {
+      //  grid[2][1] = 2;
+      //} else {
+        for ( int i = 1; i < start; i++ ) {
+          grid[start][i] = grid[start-1][i-1] + grid[start-1][i];
+        }
+      //}
+      this.ptrow ( start + 1 , end );
     }
   }
   public String toString () {
-    output = "";
-    for ( int i = 0; i < end; i++ ) {
-      for ( int j = 0; j < end; j++ ) {
+    String output = "";
+    for ( int i = 0; i < grid.length; i++ ) {
+      //for ( int k = 0; k < i / 2; k++ ) {
+      //  output += " ";
+      //}
+      for ( int j = 0; j < grid[0].length; j++ ) {
         if ( grid[i][j] != 0 ) {
-          output += grid[i] + " ";
+          output += "" + grid[i][j] + " ";
         }
       }
       output += "\n";
